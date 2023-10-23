@@ -9,9 +9,9 @@ import torch.nn as nn
 from typing import Union, Any, Callable, Dict
 from pathlib import Path
 
-from src.ml_dev_utils.models.classifiers.pytorch_classifiers.pytorch_few_shot_classifier import PyTorchFewShotClassifier
-from src.ml_dev_utils.models.models_enum import ModelEnum
-from src.ml_dev_utils.models.classifiers.pytorch_classifiers.resnet_model_loader import ResNetModelLoader
+from mlutils.models.classifiers.pytorch_classifiers.pytorch_few_shot_classifier import PyTorchFewShotClassifier
+from mlutils.models.models_enum import ModelEnum
+from mlutils.models.classifiers.pytorch_classifiers.resnet_model_loader import ResNetModelLoader
 
 
 class PyTorchPrototypicalNetworkClassifier(PyTorchFewShotClassifier):

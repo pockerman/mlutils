@@ -10,9 +10,9 @@ import torch
 import torch.utils.data as data
 import numpy as np
 
-from src.ml_dev_utils.utils.img_utils.image_loaders import load_img
-from src.ml_dev_utils.utils.mode_enum import ModeEnum
-from src.ml_dev_utils.utils.exceptions import SizeMismatchException
+from mlutils.utils.imgutils.image_loaders import load_img
+from mlutils.utils.mode_enum import ModeEnum
+from mlutils.utils.exceptions import SizeMismatchException
 
 
 class PyTorchImagesDataSetWrapper(data.Dataset):

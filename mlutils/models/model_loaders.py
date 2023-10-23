@@ -7,8 +7,8 @@ from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor
 from loguru import logger
 
-from src.ml_dev_utils.models.models_enum import ModelEnum
-from src.ml_dev_utils.models.easyfsl_proto_net_classifier import EasyFSLProtoNetClassifier
+from mlutils.models.models_enum import ModelEnum
+from mlutils.models.easyfsl_proto_net_classifier import EasyFSLProtoNetClassifier
 
 
 class ResNetModelLoader(object):

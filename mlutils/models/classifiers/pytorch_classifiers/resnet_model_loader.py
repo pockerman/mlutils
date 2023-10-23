@@ -9,7 +9,7 @@ import torch.nn as nn
 from torchvision import models
 from pathlib import Path
 
-from src.ml_dev_utils.models.models_enum import ModelEnum
+from mlutils.models.models_enum import ModelEnum
 
 class ResNetModelLoader(object):
 
