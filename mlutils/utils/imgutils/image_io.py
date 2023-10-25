@@ -1,28 +1,78 @@
 import numpy as np
 from PIL import Image
 from pathlib import Path
-from typing import Callable, List, Any, TypeVar, Tuple
+from typing import Callable, List, Any, TypeVar, Tuple, Union
 from io import BytesIO
+import cv2
+import os
 
-from navalmartin_mir_vision_utils import get_img_files
-
-from navalmartin_mir_vision_utils.mir_vision_config import WITH_TORCH, WITH_CV2
-from navalmartin_mir_vision_utils.mir_vision_types import TorchTensor
-from navalmartin_mir_vision_utils.exceptions import InvalidConfiguration
-from navalmartin_mir_vision_utils.image_enums import (ImageLoadersEnumType, IMAGE_LOADERS_TYPES_STR, IMAGE_STR_TYPES)
-from navalmartin_mir_vision_utils.utils.messages import ERROR
-
-if WITH_TORCH:
-    import torch
-    import torchvision
-    from torchvision import transforms
-
-
-if WITH_CV2:
-    import cv2
+from mlutils.utils.imgutils.image_enums import ImageFileEnumType, ImageLoadersEnumType, IMAGE_LOADERS_TYPES_STR, IMAGE_STR_TYPES
 
 
 ImageType = TypeVar("ImageType")
+
+def list_image_files(base_path: Path,
+                     valid_exts: Union[List, tuple] = IMAGE_STR_TYPES,
+                     contains: str = None) -> Path:
+    """Generator that returns all the images in the given
+    base_path
+
+    Parameters
+    ----------
+    base_path: Base path to look for image files
+    valid_exts: Extensions to use
+    contains: String that the filename should contain
+
+    Returns
+    -------
+
+    """
+
+    if isinstance(valid_exts, tuple):
+        valid_exts = list(valid_exts)
+
+    for i, item in enumerate(valid_exts):
+        if isinstance(item, ImageFileEnumType):
+            valid_exts[i] = f'.{item.name.lower()}'
+
+    if not isinstance(valid_exts, tuple):
+        valid_exts = tuple(valid_exts)
+
+    # loop over the directory structure
+    for (rootDir, dirNames, filenames) in os.walk(base_path):
+        # loop over the filenames in the current directory
+        for filename in filenames:
+            # if the contains string is not none and the filename does not contain
+            # the supplied string, then ignore the file
+            if contains is not None and filename.find(contains) == -1:
+                continue
+
+            # determine the file extension of the current file
+            ext = filename[filename.rfind("."):].lower()
+
+            # check to see if the file is an image and should be processed
+            if valid_exts is None or ext.endswith(valid_exts):
+                # construct the path to the image and yield it
+                image_path = os.path.join(rootDir, filename)
+                yield Path(image_path)
+
+
+def get_img_files(base_path: Path,
+                  img_formats: Union[List, tuple] = IMAGE_STR_TYPES) -> List[Path]:
+    """Get the image files in the given image directory that have
+    the specified image format.
+
+    Parameters
+    ----------
+    base_path: The image directory
+    img_formats: The image formats
+
+    Returns
+    -------
+    An instance of List[Path]
+    """
+
+    return list(list_image_files(base_path=base_path, valid_exts=img_formats))
 
 def load_img(path: Path, transformer: Callable = None,
              loader: ImageLoadersEnumType = ImageLoadersEnumType.PIL) -> Any:
@@ -52,16 +102,10 @@ def load_img(path: Path, transformer: Callable = None,
         return load_image_as_numpy(path=path, transformer=transformer)
 
     if loader.value == ImageLoadersEnumType.CV2.value:
-        if WITH_CV2:
-            return load_image_cv2(path=path, transformer=transformer)
-        else:
-            raise InvalidConfiguration(message="opencv-python was not found. Cannot import cv2")
+        return load_image_cv2(path=path, transformer=transformer)
 
     if loader.value == ImageLoadersEnumType.PYTORCH_TENSOR.value:
-        if WITH_TORCH:
-            return load_image_pytorch_tensor(path=path, transformer=transformer)
-        else:
-            raise InvalidConfiguration(message="PyTorch was not found.")
+        return load_image_pytorch_tensor(path=path, transformer=transformer)
 
     if loader.value == ImageLoadersEnumType.FILEPATH.value:
         return path
@@ -96,7 +140,7 @@ def load_pil_image_from_byte_string(image_byte_string: bytes,
 
         return image
     except (IOError, SyntaxError) as e:
-        print(f"{ERROR} the image_byte_string is corrupted")
+        print(f"ERROR: the image_byte_string is corrupted")
         print(f"Exception message {str(e)}")
         return None
 

@@ -12,7 +12,6 @@ from PIL import Image
 from PIL import ImageOps
 import torchvision.transforms as transforms
 import torch
-import cv2
 
 from mlutils.utils.imgutils.image_enums import ImageLoadersEnumType
 from mlutils.utils.imgutils.image_io import load_img, ImageWriters
@@ -171,9 +170,9 @@ def chunkify_image(image: ImageType, chunk_size: tuple, image_type: ImageLoaders
     A list of ImageType
     """
 
-    if image_type == ImageLoadersEnumType.CV2:
+    if image_type.value == ImageLoadersEnumType.CV2.value:
         if not isinstance(image, numpy.ndarray):
-            raise ValueError(f"image_type is cv2.Mat but image is {type(image)}")
+            raise ValueError(f"image_type is numpy.ndarray but image is {type(image)}")
 
 
         img_height, img_width, channels = image.shape
