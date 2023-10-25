@@ -10,7 +10,7 @@ import torch
 import torch.utils.data as data
 import numpy as np
 
-from mlutils.utils.imgutils.image_loaders import load_img
+from mlutils.utils.imgutils.image_io import load_img
 from mlutils.utils.mode_enum import ModeEnum
 from mlutils.utils.exceptions import SizeMismatchException
 

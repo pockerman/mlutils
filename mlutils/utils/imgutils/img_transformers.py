@@ -3,14 +3,21 @@ for transforming images
 
 """
 import enum
-from typing import Callable, List
+from typing import Callable, List, TypeVar
+from pathlib import Path
+
+import numpy
 import numpy as np
 from PIL import Image
 from PIL import ImageOps
 import torchvision.transforms as transforms
-
 import torch
+import cv2
 
+from mlutils.utils.imgutils.image_enums import ImageLoadersEnumType
+from mlutils.utils.imgutils.image_io import load_img, ImageWriters
+
+ImageType = TypeVar("ImageType")
 
 class ImageAugmentType(enum.Enum):
     INVALID = 0
@@ -112,3 +119,74 @@ def to_rgb(image: Image) -> Image:
         return image
 
     return image.convert("RGB")
+
+
+def chuckify_image_from_path(img: Path, chunk_size: tuple,
+                             image_type: ImageLoadersEnumType,
+                             output_dir: Path = None,
+                             img_format=".jpg") -> List[ImageType]:
+    """Create chunks for the image in the given path. Each image will have
+    size described in the chunk_size parameter however slightly different chunks may also
+    occur. If output_dir is not None, the images will be stored in the specified
+    directory as output_dir / img_counter.img_format
+    Parameters
+    ----------
+    img: Path to the image to chunkify
+    chunk_size: The chunk size
+    image_type: The image type
+    output_dir: Where the chunks should be saved
+    img_format: The image format for the chunks
+
+    Returns
+    -------
+
+    """
+
+    image = load_img(path=img, loader=image_type)
+
+    chunks = chunkify_image(image=image,image_type=image_type, chunk_size=chunk_size)
+
+    if output_dir is not None:
+        img_counter = 0
+        for chunk in chunks:
+            outfile = output_dir / f"img_{img_counter}{img_format}"
+            ImageWriters.save_image(image=chunk, image_type=image_type, outpath=outfile)
+            img_counter += 1
+
+    return chunks
+
+
+def chunkify_image(image: ImageType, chunk_size: tuple, image_type: ImageLoadersEnumType) -> List[ImageType]:
+    """Create chunks of the given image. Each chunk will be of chunk_size if possible
+
+    Parameters
+    ----------
+    image: The image to create the chunks for
+    chunk_size: The size of the image
+    image_type: The image type
+
+    Returns
+    -------
+
+    A list of ImageType
+    """
+
+    if image_type == ImageLoadersEnumType.CV2:
+        if not isinstance(image, numpy.ndarray):
+            raise ValueError(f"image_type is cv2.Mat but image is {type(image)}")
+
+
+        img_height, img_width, channels = image.shape
+
+        chunck_width = chunk_size[0]
+        chunck_height = chunk_size[1]
+
+        chuncks = []
+        for i in range(0, img_height, chunck_height):
+            for j in range(0, img_width, chunck_width):
+                chunck_data = image[i:i + chunck_height, j:j + chunck_width]
+                chuncks.append(chunck_data)
+
+        return chuncks
+
+    raise ValueError(f"Image type {image_type.name} has not been implemented for chunkify_image.")

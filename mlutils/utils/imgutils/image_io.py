@@ -1,7 +1,7 @@
 import numpy as np
 from PIL import Image
 from pathlib import Path
-from typing import Callable, List, Any
+from typing import Callable, List, Any, TypeVar, Tuple
 from io import BytesIO
 
 from navalmartin_mir_vision_utils import get_img_files
@@ -21,6 +21,8 @@ if WITH_TORCH:
 if WITH_CV2:
     import cv2
 
+
+ImageType = TypeVar("ImageType")
 
 def load_img(path: Path, transformer: Callable = None,
              loader: ImageLoadersEnumType = ImageLoadersEnumType.PIL) -> Any:
@@ -43,25 +45,25 @@ def load_img(path: Path, transformer: Callable = None,
     if loader.name.upper() not in IMAGE_LOADERS_TYPES_STR:
         raise ValueError(f"Invalid image loader={loader.name.upper()} not in {IMAGE_LOADERS_TYPES_STR}")
 
-    if loader == ImageLoadersEnumType.PIL:
+    if loader.value == ImageLoadersEnumType.PIL.value:
         return load_image_as_pillow(path=path, transformer=transformer)
 
-    if loader == ImageLoadersEnumType.PIL_NUMPY:
+    if loader.value == ImageLoadersEnumType.PIL_NUMPY.value:
         return load_image_as_numpy(path=path, transformer=transformer)
 
-    if loader == ImageLoadersEnumType.CV2:
+    if loader.value == ImageLoadersEnumType.CV2.value:
         if WITH_CV2:
             return load_image_cv2(path=path, transformer=transformer)
         else:
             raise InvalidConfiguration(message="opencv-python was not found. Cannot import cv2")
 
-    if loader == ImageLoadersEnumType.PYTORCH_TENSOR:
+    if loader.value == ImageLoadersEnumType.PYTORCH_TENSOR.value:
         if WITH_TORCH:
             return load_image_pytorch_tensor(path=path, transformer=transformer)
         else:
             raise InvalidConfiguration(message="PyTorch was not found.")
 
-    if loader == ImageLoadersEnumType.FILEPATH:
+    if loader.value == ImageLoadersEnumType.FILEPATH.value:
         return path
 
     return None
@@ -258,3 +260,19 @@ def load_images_as_torch(x: List[Path], y_train: List[int],
 
     data = [load_img(img_path, transformer) for img_path in x]
     return torch.stack(data), torch.tensor(y_train, dtype=torch.uint8)
+
+class ImageWriters:
+
+    @staticmethod
+    def save_image(image: ImageType, image_type: ImageLoadersEnumType, outpath: Path) -> None:
+
+        if image_type == ImageLoadersEnumType.CV2:
+            cv2.imwrite(str(outpath), image)
+
+        else:
+            raise ValueError("Not implemented yet")
+
+    @staticmethod
+    def save_images(images: List[Tuple[ImageType, Path]]):
+        for img in images:
+            ImageWriters.save_image(image=img[0], outpath=img[1])
