@@ -284,7 +284,7 @@ def load_images_as_torch(x: List[Path], y_train: List[int],
     Parameters
     ----------
     x: A list of image files
-    y_train: The lebels associated with evey image
+    y_train: The labels associated with evey image
     transformer: Transform to apply when loading the images.
     Usually this will be transforms.Compose
 
