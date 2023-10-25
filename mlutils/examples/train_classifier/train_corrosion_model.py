@@ -735,7 +735,6 @@ if __name__ == '__main__':
                                               pin_memory=True,
                                               collate_fn=batch_sampler.episodic_collate_fn)
 
-
     model = PyTorchPrototypicalNetworkClassifier.build(
         #model_path=Path("/home/alex/qi3/mir_models/corrosion_protonet_resnet18_model.pth"),
         device=device,
