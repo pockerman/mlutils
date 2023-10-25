@@ -1,4 +1,6 @@
 import numpy as np
+import torch
+from torchvision import transforms
 from PIL import Image
 from pathlib import Path
 from typing import Callable, List, Any, TypeVar, Tuple, Union
@@ -231,10 +233,6 @@ def load_image_cv2(path: Path, transformer: Callable = None,
     OpenCV image matrix
     """
 
-    if not WITH_CV2:
-        print("opencv-python is not installed.")
-        raise InvalidConfiguration(message="opencv-python is not installed.")
-
     image = cv2.imread(str(path))
 
     if with_color:
@@ -246,7 +244,7 @@ def load_image_cv2(path: Path, transformer: Callable = None,
     return image
 
 
-def load_image_pytorch_tensor(path: Path, transformer: Callable = None) -> TorchTensor:
+def load_image_pytorch_tensor(path: Path, transformer: Callable = None) -> torch.Tensor:
     """Load the image from the specified path.  If WITH_TORCH is False
     throws InvalidConfiguration
 
@@ -261,9 +259,7 @@ def load_image_pytorch_tensor(path: Path, transformer: Callable = None) -> Torch
 
     """
 
-    if not WITH_TORCH:
-        print("PyTorch is not installed.")
-        raise InvalidConfiguration(message="PyTorch is not installed.")
+
 
     with Image.open(path) as image:
 
@@ -296,11 +292,6 @@ def load_images_as_torch(x: List[Path], y_train: List[int],
     -------
     A tuple of torch.Tensors
     """
-
-    if not WITH_TORCH:
-        print("load_image_pytorch_tensor is not available as PyTorch was not found.")
-        raise
-        return None
 
     data = [load_img(img_path, transformer) for img_path in x]
     return torch.stack(data), torch.tensor(y_train, dtype=torch.uint8)
