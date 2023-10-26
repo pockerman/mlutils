@@ -6,6 +6,6 @@ torch
 torchvision
 torchaudio
 pandas
-sklearn
+scikit-learn
 black
 pre-commit

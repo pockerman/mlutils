@@ -1,6 +1,7 @@
 [build-system]
-requires = ["hatchling", "numpy", "Pillow", "scipy", "scikit-image", "torch",
-    "torchvision", "torchaudio", "matplotlib"]
+requires = ["hatchling", "numpy", "Pillow", "scipy", "pandas",
+            "scikit-image", "scikit-learn",
+            "torch", "torchvision", "torchaudio", "matplotlib"]
 build-backend = "hatchling.build"
 [project]
 name = "simplemlutils"

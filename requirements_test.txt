@@ -6,7 +6,7 @@ torch
 torchvision
 torchaudio
 pandas
-sklearn
+scikit-learn
 flake8
 pytest
 black
