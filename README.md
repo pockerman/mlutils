@@ -1,4 +1,4 @@
-[![mlutils](https://github.com/pockerman/mlutils/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/pockerman/mlutils/actions/workflows/python-app.yml)
+![mlutils](https://github.com/pockerman/mlutils/actions/workflows/python-app.yml/badge.svg?branch=main)
 
 # mlutils
 
