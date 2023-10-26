@@ -7,5 +7,6 @@ torchvision
 torchaudio
 pandas
 scikit-learn
+spacy
 black
 pre-commit
