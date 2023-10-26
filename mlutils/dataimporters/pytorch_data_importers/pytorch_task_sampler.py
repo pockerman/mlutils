@@ -5,7 +5,7 @@ import torch
 from torch import Tensor
 from torch.utils.data import Sampler
 
-from mlutils.data_importers.pytorch_data_importers.pytorch_images_data_set_wrapper import PyTorchImagesDataSetWrapper
+from mlutils.dataimporters.pytorch_data_importers.pytorch_images_data_set_wrapper import PyTorchImagesDataSetWrapper
 
 
 class PyTorchTaskSampler(Sampler):

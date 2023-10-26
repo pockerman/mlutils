@@ -5,5 +5,7 @@ opencv-python
 torch
 torchvision
 torchaudio
+pandas
+sklearn
 black
 pre-commit

@@ -5,10 +5,9 @@ import torch.nn as nn
 from torchvision import models
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor
-from loguru import logger
+
 
 from mlutils.models.models_enum import ModelEnum
-from mlutils.models.easyfsl_proto_net_classifier import EasyFSLProtoNetClassifier
 
 
 class ResNetModelLoader(object):
@@ -93,84 +92,6 @@ class ResNetModelLoader(object):
 
         model_ft.load_state_dict(torch.load(model_path, map_location=torch.device(device)))
         return model_ft
-
-
-class ProtoNetModelLoader(object):
-
-    @staticmethod
-    def build_from_config(config: dict):
-
-        if config['model_type'] == "PROTO_NET_RESNET_50":
-            backbone_net = ModelEnum.from_str("RESNET_50")
-        elif config['model_type'] == "PROTO_NET_RESNET_18":
-            backbone_net = ModelEnum.from_str("RESNET_18")
-        else:
-            raise ValueError(f"Model type {config['model_type']} not in "
-                             f"['PROTO_NET_RESNET_18', 'PROTO_NET_RESNET_50']")
-
-        logger.info(f"Backbone net is set to {backbone_net} ")
-        logger.info(f"Model is set to {config['device']} ")
-        convolutional_network = ResNetModelLoader.build(model_type=backbone_net,
-                                                        device=config['device'],
-                                                        pretrained=config['with_pretrained'],
-                                                        model_adaptor=config['model_adaptor'],
-                                                        freeze_model_params=config['freeze_model_parameters'],
-                                                        weights=config['weights'] if 'weights' in config else None)
-
-        model = EasyFSLProtoNetClassifier(backbone=convolutional_network,
-                                          model_name=config['model_type'],
-                                          device=config['device'])
-
-        model.to(device=config['device'])
-        return model
-
-    @staticmethod
-    def load_from_config(config: dict):
-
-        if config['model_type'] == "PROTO_NET_RESNET_50":
-            backbone_net = ModelEnum.from_str("RESNET_50")
-        elif config['model_type'] == "PROTO_NET_RESNET_18":
-            backbone_net = ModelEnum.from_str("RESNET_18")
-        else:
-            raise ValueError(f"Model type {config['model_type']} not in "
-                             f"['PROTO_NET_RESNET_18', 'PROTO_NET_RESNET_50']")
-
-        logger.info(f"Backbone net is set to {backbone_net} ")
-        logger.info(f"Model is set to {config['device']} ")
-        convolutional_network = ResNetModelLoader.build(model_type=backbone_net,
-                                                        device=config['device'],
-                                                        pretrained=config['with_pretrained'],
-                                                        model_adaptor=config['model_adaptor'],
-                                                        freeze_model_params=config['freeze_model_parameters'],
-                                                        weights=config['weights'] if 'weights' in config else None)
-
-        model = EasyFSLProtoNetClassifier(backbone=convolutional_network,
-                                          model_name=config['model_type'],
-                                          device=config['device'])
-
-        model.load_state_dict(torch.load(config['model_path'],
-                                         map_location=torch.device(config['device'])))
-        model.to(device=config['device'])
-
-        return model
-
-    @staticmethod
-    def build(model_type: Union[ModelEnum | str], device: str = 'cpu',
-              pretrained: bool = True, weights: Any = None,
-              model_adaptor: Callable = None,
-              freeze_model_params: bool = True) -> nn.Module:
-
-        raise NotImplementedError("Function not implemented")
-
-    @staticmethod
-    def load(model_type: ModelEnum,
-             model_path: Path,
-             model_adaptor: Callable = None,
-             device: str = 'cpu',
-             freeze_model_params: bool = True,
-             pretrained: bool = True, weights: Any = None) -> nn.Module:
-
-        raise NotImplementedError("Function not implemented")
 
 
 class MaskRCNNModelLoader(object):

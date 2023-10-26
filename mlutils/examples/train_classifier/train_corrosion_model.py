@@ -23,9 +23,9 @@ sys.path.append("/home/alex/qi3/ml_dev_utils")
 from mlutils.models.classifiers import PyTorchPrototypicalNetworkClassifier
 from mlutils.models import ModelEnum
 from mlutils.models.pytorch_model_last_layer_adaptor import AddLinearLayerAdaptor
-from mlutils.data_importers import PyTorchImagesDataSetWrapper
+from mlutils.dataimporters import PyTorchImagesDataSetWrapper
 from mlutils.utils.file_utils import get_all_files, save_list_as_csv
-from mlutils.data_importers import PyTorchTaskSampler
+from mlutils.dataimporters import PyTorchTaskSampler
 from mlutils.utils.imgutils.img_transformers import to_rgb
 from mlutils.utils.common_utils import set_seed
 
