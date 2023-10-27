@@ -18,3 +18,5 @@ Then install the built wheel using
 ```
 pip install dist/simplemlutils-<version>.whl
 ```
+
+Alternatively, you can use the bash script ```install_from_source.sh```. 
