@@ -25,7 +25,7 @@ from mlutils.models.pytorch_model_last_layer_adaptor import AddLinearLayerAdapto
 from mlutils.dataimporters import PyTorchImagesDataSetWrapper
 from mlutils.dataimporters import PyTorchTaskSampler
 from mlutils.utils.file_utils import get_all_files, save_list_as_csv
-from mlutils.utils.imgutils.img_transformers import to_rgb
+from mlutils.utils.imgutils.image_transformers import to_rgb
 from mlutils.utils.common_utils import set_seed
 from mlutils.utils.plotutils import plot_avg_train_validate_accuracy, plot_avg_train_validate_loss
 

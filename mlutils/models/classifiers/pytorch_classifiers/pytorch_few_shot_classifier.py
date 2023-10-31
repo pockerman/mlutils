@@ -4,7 +4,6 @@ import copy
 import torch
 from torch import nn, Tensor
 
-#from src.easyfsl.utils import compute_backbone_output_shape, compute_prototypes
 
 
 class PyTorchFewShotClassifier(nn.Module):

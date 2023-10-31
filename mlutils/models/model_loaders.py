@@ -111,7 +111,8 @@ class MaskRCNNModelLoader(object):
 
                 if 'weights' not in config or config['weights'] is None:
 
-                    model = models.detection.maskrcnn_resnet50_fpn(weights=models.detection.MaskRCNN_ResNet50_FPN_Weights.DEFAULT)
+                    model = (
+                        models.detection.maskrcnn_resnet50_fpn(weights=models.detection.MaskRCNN_ResNet50_FPN_Weights.DEFAULT))
                 else:
                     model = models.detection.maskrcnn_resnet50_fpn(weights=config['weights'])
 
@@ -143,4 +144,3 @@ class MaskRCNNModelLoader(object):
                                          map_location=torch.device(config['device'])))
         model.to(device=config['device'])
         return model
-

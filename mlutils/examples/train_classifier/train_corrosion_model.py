@@ -26,18 +26,18 @@ from mlutils.models.pytorch_model_last_layer_adaptor import AddLinearLayerAdapto
 from mlutils.dataimporters import PyTorchImagesDataSetWrapper
 from mlutils.utils.file_utils import get_all_files, save_list_as_csv
 from mlutils.dataimporters import PyTorchTaskSampler
-from mlutils.utils.imgutils.img_transformers import to_rgb
+from mlutils.utils.imgutils.image_transformers import to_rgb
 from mlutils.utils.common_utils import set_seed
 
 N_CLASSES = 2
 
 # how many points to use in order to create
 # the average point for a class
-N_SUPPORT_POINTS =  1#5
+N_SUPPORT_POINTS = 1 # 5
 
 # how many points to look into in order
 # to establish the error
-N_QUERY_POINTS =  1#10
+N_QUERY_POINTS = 1 # 10
 
 # how many iterations to do over every
 # batch
@@ -93,11 +93,11 @@ def load_list_from_csv(filename: Path) -> List[float]:
                 data.append(float((item[1])))
         return data
 
+
 def _add_plot(n_epochs: int, data: Union[Path, List[float]],
               label: str,
               step_length: int = 100,
               use_mean_smoothing: bool = True):
-
 
     if isinstance(data, Path):
         data = load_list_from_csv(filename=data)
@@ -250,6 +250,7 @@ def epoch_fit_model(model: PyTorchPrototypicalNetworkClassifier,
             n_preds = float(len(query_labels))
             ncorrect = torch.sum(preds == query_labels.data).item()
             epoch_accuracy.append(ncorrect / n_preds)
+
 
 def epoch_validation_fit_model(model: PyTorchPrototypicalNetworkClassifier,
                                criterion: Callable,

@@ -13,6 +13,7 @@ from mlutils.utils.imgutils.image_enums import ImageFileEnumType, ImageLoadersEn
 
 ImageType = TypeVar("ImageType")
 
+
 def list_image_files(base_path: Path,
                      valid_exts: Union[List, tuple] = IMAGE_STR_TYPES,
                      contains: str = None) -> Path:
@@ -75,6 +76,7 @@ def get_img_files(base_path: Path,
     """
 
     return list(list_image_files(base_path=base_path, valid_exts=img_formats))
+
 
 def load_img(path: Path, transformer: Callable = None,
              loader: ImageLoadersEnumType = ImageLoadersEnumType.PIL) -> Any:
@@ -142,7 +144,7 @@ def load_pil_image_from_byte_string(image_byte_string: bytes,
 
         return image
     except (IOError, SyntaxError) as e:
-        print(f"ERROR: the image_byte_string is corrupted")
+        print("ERROR: the image_byte_string is corrupted")
         print(f"Exception message {str(e)}")
         return None
 
@@ -259,13 +261,11 @@ def load_image_pytorch_tensor(path: Path, transformer: Callable = None) -> torch
 
     """
 
-
-
     with Image.open(path) as image:
 
         if transformer is None:
-                transform_to_torch = transforms.Compose([transforms.ToTensor()])
-                return transform_to_torch(image)
+            transform_to_torch = transforms.Compose([transforms.ToTensor()])
+            return transform_to_torch(image)
 
         x = image
         x = transformer(x)
@@ -295,6 +295,7 @@ def load_images_as_torch(x: List[Path], y_train: List[int],
 
     data = [load_img(img_path, transformer) for img_path in x]
     return torch.stack(data), torch.tensor(y_train, dtype=torch.uint8)
+
 
 class ImageWriters:
 

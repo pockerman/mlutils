@@ -1,7 +1,6 @@
 from typing import List
 import torch
 import numpy as np
-import random
 
 
 def sliding_average(value_list: List[float],
@@ -40,6 +39,3 @@ def weighted_sum(x: torch.Tensor, y: torch.Tensor, w: float) -> torch.Tensor:
     w*x + (1.0-w)*y
     """
     return w*x + (1.0-w)*y
-
-
-

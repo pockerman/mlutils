@@ -174,9 +174,7 @@ def chunkify_image(image: ImageType, chunk_size: tuple, image_type: ImageLoaders
         if not isinstance(image, numpy.ndarray):
             raise ValueError(f"image_type is numpy.ndarray but image is {type(image)}")
 
-
         img_height, img_width, channels = image.shape
-
         chunck_width = chunk_size[0]
         chunck_height = chunk_size[1]
 

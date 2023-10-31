@@ -11,6 +11,7 @@ from pathlib import Path
 
 from mlutils.models.models_enum import ModelEnum
 
+
 class ResNetModelLoader(object):
 
     @staticmethod

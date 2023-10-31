@@ -7,7 +7,6 @@ import pickle
 import datetime
 import shutil
 import hashlib
-import uuid
 
 
 def has_suffix(filename: Union[Path, str], suffixes: List[str]) -> bool:
@@ -37,6 +36,7 @@ def has_suffix(filename: Union[Path, str], suffixes: List[str]) -> bool:
 
     return False
 
+
 def get_files_in_dir(dir_path: Path, file_ext: str) -> List[Path]:
     """Returns a list of files with the given extension
     in the provided directory path
@@ -48,6 +48,7 @@ def get_files_in_dir(dir_path: Path, file_ext: str) -> List[Path]:
         if Path(file_).suffix == file_ext:
             file_paths.append(dir_path / file_)
     return file_paths
+
 
 def get_md5_checksum(file: Union[Path, str, bytes]):
     """Returns the MD5 checksum of the file
