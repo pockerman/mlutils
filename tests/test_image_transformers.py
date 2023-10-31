@@ -1,6 +1,6 @@
 import unittest
 from pathlib import Path
-from mlutils.utils.imgutils.img_transformers import chuckify_image_from_path
+from mlutils.utils.imgutils.image_transformers import chuckify_image_from_path
 from mlutils.utils.imgutils.image_enums import ImageLoadersEnumType
 from tests.config_tests import TEST_ROOT_DIR
 
