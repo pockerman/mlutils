@@ -8,5 +8,6 @@ torchaudio
 pandas
 scikit-learn
 spacy
+feature-engine
 black
 pre-commit
