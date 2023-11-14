@@ -20,4 +20,9 @@ Then install the built wheel using
 pip install dist/simplemlutils-<version>.whl
 ```
 
-Alternatively, you can use the bash script ```install_from_source.sh```. 
+Alternatively, you can use the bash script ```install_from_source.sh```.  You can also
+install it from PyPi using
+
+```
+pip install simpleutils
+```

@@ -8,6 +8,7 @@ torchaudio
 pandas
 scikit-learn
 spacy
+feature-engine
 flake8
 pytest
 black
