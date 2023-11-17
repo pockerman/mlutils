@@ -5,7 +5,7 @@ requires = ["hatchling", "numpy", "Pillow", "scipy", "pandas",
 build-backend = "hatchling.build"
 [project]
 name = "simplemlutils"
-version = "0.0.4"
+version = "0.0.5"
 authors = [
   { name="Alexandros Giavaras", email="a.giavaras@gmail.com" },
 ]

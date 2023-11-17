@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name="mlutils",
-      version="0.0.4",
+      version="0.0.5",
       description="Statistics and machine learning utilities",
       author="Alex Giavaras.",
       packages=['mlutils'],
