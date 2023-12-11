@@ -1,1 +1,3 @@
-from .train_validation_plot import plot_avg_train_validate_accuracy, plot_avg_train_validate_loss
+from .plot_train_validation_curves import plot_avg_train_validate_accuracy, plot_avg_train_validate_loss
+from plot_pca_arrows import plot_pca_arrows
+from plot_clusters import plot_clusters
