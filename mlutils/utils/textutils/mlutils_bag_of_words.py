@@ -18,6 +18,12 @@ class BagOfWords(object):
     def __len__(self):
         return len(self.bow)
 
+    def empty(self) -> bool:
+        return len(self) != 0
+
+    def clear(self) -> None:
+        self.bow = {}
+
     def add_tokens(self, tokens: List[str]) -> None:
         """Add tokens to the bag
 

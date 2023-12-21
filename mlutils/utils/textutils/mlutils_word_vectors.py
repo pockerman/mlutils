@@ -2,6 +2,18 @@ from typing import List, Tuple, Callable
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
 def compute_word_count_vector(corpus: List[str]) -> List:
+    """
+    Tokenize the given corpus using scikit-learn CountVectorizer.
+    scikit-learn tokenizes the sentences slightly differently
+    (it only considers words of 2 letters or more as tokens) and drops the punctuation.
+    Parameters
+    ----------
+    corpus: The text to use
+
+    Returns
+    -------
+
+    """
     vectorizer = CountVectorizer()
     vector = vectorizer.fit_transform(corpus)
     return vector.toarray()
